@@ -1,6 +1,8 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
 import { Nav } from './components';
 import { Home } from './pages';
+import { theme } from './theme';
 import './App.css';
 
 // function Hello() {
@@ -23,11 +25,13 @@ import './App.css';
 
 export default function App() {
   return (
-    <Router>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }

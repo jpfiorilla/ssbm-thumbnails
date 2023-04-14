@@ -1,5 +1,9 @@
-import { ThumbnailsForm } from 'renderer/features';
+import { ThumbnailsForm, ThumbnailsFormValuesType } from 'renderer/features';
 
 export const Home = () => {
-  return <ThumbnailsForm />;
+  const handleSubmit = (values: ThumbnailsFormValuesType) => {
+    console.log({ values });
+  };
+
+  return <ThumbnailsForm onSubmit={handleSubmit} />;
 };

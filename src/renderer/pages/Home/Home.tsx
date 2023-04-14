@@ -1,3 +1,5 @@
+import { ThumbnailsForm } from 'renderer/features';
+
 export const Home = () => {
-  return <div>yo</div>;
+  return <ThumbnailsForm />;
 };

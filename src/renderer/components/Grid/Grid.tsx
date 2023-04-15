@@ -1,7 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
-export type GridProps = { children: JSX.Element };
+export type GridProps = Pick<
+  BoxProps,
+  'children' | 'gap' | 'gridTemplateColumns'
+>;
 
-export const Grid = ({ children }: GridProps) => (
-  <Box display="grid">{children}</Box>
+export const Grid = ({ children, ...props }: GridProps) => (
+  <Box display="grid" {...props}>
+    {children}
+  </Box>
 );

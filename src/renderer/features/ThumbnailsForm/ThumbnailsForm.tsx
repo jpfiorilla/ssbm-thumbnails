@@ -2,7 +2,7 @@ import { FieldArray, Formik } from 'formik';
 import { SetField, emptySet } from './SetField';
 import { SetType } from 'types';
 import { Add } from '@mui/icons-material';
-import { IconButton, Stack } from '@mui/material';
+import { Button, IconButton, Stack } from '@mui/material';
 import { TextField } from 'renderer/components';
 
 export type ThumbnailsFormValuesType = {
@@ -29,29 +29,38 @@ export const ThumbnailsForm = ({ onSubmit }: ThumbnailsFormProps) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleFormikSubmit}>
-      {({ handleSubmit, values: { sets } }) => {
+      {({ dirty, handleSubmit, values: { sets } }) => {
         console.log({ sets });
         const handleAddSet = () => {};
 
         return (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            <Stack direction="column">
-              {/* <code>{JSON.stringify(values)}</code> */}
-              <Stack alignItems="flex-start" p={2}>
+            <Stack p={2} spacing={4}>
+              <Stack alignItems="flex-start">
                 <TextField name="tournamentEdition" />
               </Stack>
               <FieldArray
                 name="sets"
                 render={(arrayHelpers) => {
+                  const handleRemoveSet = (index: number) => {
+                    arrayHelpers.remove(index);
+                  };
+
                   return (
-                    <Stack p={2} spacing={2}>
-                      {sets.map((set, i) => (
-                        <SetField index={i} key={i} name={`sets.${i}`} />
+                    <Stack spacing={2}>
+                      {sets.map((_, i) => (
+                        <SetField
+                          index={i}
+                          key={i}
+                          onRemoveSet={handleRemoveSet}
+                          name={`sets.${i}`}
+                        />
                       ))}
                       <IconButton
                         disabled={
+                          Boolean(sets.length) &&
                           JSON.stringify(sets[sets.length - 1]) ===
-                          JSON.stringify(emptySet)
+                            JSON.stringify(emptySet)
                         }
                         onClick={() => arrayHelpers.push(emptySet)}
                         sx={{ alignSelf: 'flex-end' }}
@@ -62,6 +71,13 @@ export const ThumbnailsForm = ({ onSubmit }: ThumbnailsFormProps) => {
                   );
                 }}
               />
+              <Button
+                disabled={!dirty}
+                sx={{ alignSelf: 'center' }}
+                type="submit"
+              >
+                Submit
+              </Button>
             </Stack>
           </form>
         );

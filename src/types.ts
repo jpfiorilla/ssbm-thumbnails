@@ -4,6 +4,11 @@ export type CharacterType = {
   slug: string;
 };
 
+export type OptionType = {
+  label: string;
+  value: string;
+};
+
 export type PlayerType = {
   character: string;
   costume?: number;

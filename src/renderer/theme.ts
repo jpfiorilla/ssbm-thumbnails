@@ -2,6 +2,22 @@ import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
   components: {
+    MuiAutocomplete: {
+      defaultProps: {
+        fullWidth: false,
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        margin: 'none',
+        variant: 'standard',
+      },
+    },
+    MuiStack: {
+      defaultProps: {
+        direction: 'column',
+      },
+    },
     MuiTextField: {
       defaultProps: {
         fullWidth: false,
@@ -9,5 +25,8 @@ export const theme = createTheme({
         variant: 'standard',
       },
     },
+  },
+  palette: {
+    mode: 'dark',
   },
 });

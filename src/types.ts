@@ -5,7 +5,7 @@ export type CharacterType = {
 };
 
 export type OptionType = {
-  label: string;
+  label: string | JSX.Element;
   value: string;
 };
 

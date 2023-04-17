@@ -9,6 +9,7 @@ export const theme = createTheme({
     },
     MuiSelect: {
       defaultProps: {
+        fullWidth: false,
         margin: 'none',
         variant: 'standard',
       },
@@ -30,3 +31,8 @@ export const theme = createTheme({
     mode: 'dark',
   },
 });
+
+const nycMeleePalette = {
+  lightBlue: '#9BEFFD',
+  darkBlue: '#264057',
+};

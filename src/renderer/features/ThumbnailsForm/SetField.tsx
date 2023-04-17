@@ -65,25 +65,6 @@ export const SetField = ({ index, name, onRemoveSet }: SetFieldType) => {
           <Stack spacing={1}>
             <TextField name={`${name}.playerA.tag`} />
             <Stack direction="row">
-              {/* <TextField name={`${name}.playerA.character`} sx={{ flex: 1 }} /> */}
-              {/* <AutocompleteField
-                getOptionLabel={(option: OptionType | string) => {
-                  if (typeof option === 'string') return option;
-                  return option.label;
-                }}
-                options={characterOptions}
-                renderInput={(params: AutocompleteRenderInputParams) => (
-                  <MuiTextField
-                    {...params}
-                    InputProps={{
-                      ...params.InputProps,
-                      type: 'search',
-                    }}
-                    name={`${name}.playerA.character`}
-                    sx={{ flex: 1 }}
-                  />
-                )}
-              /> */}
               <SelectField
                 name={`${name}.playerA.character`}
                 options={characterOptions}
@@ -94,7 +75,11 @@ export const SetField = ({ index, name, onRemoveSet }: SetFieldType) => {
           <Stack spacing={1}>
             <TextField name={`${name}.playerB.tag`} />
             <Stack direction="row">
-              <TextField name={`${name}.playerB.character`} sx={{ flex: 1 }} />
+              <SelectField
+                name={`${name}.playerB.character`}
+                options={characterOptions}
+                sx={{ minWidth: 200 }}
+              />
             </Stack>
           </Stack>
         </Grid>

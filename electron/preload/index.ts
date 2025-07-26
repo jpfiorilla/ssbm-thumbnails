@@ -25,6 +25,8 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
 contextBridge.exposeInMainWorld("startgg", {
   validateToken: (token: string) =>
     ipcRenderer.invoke("startgg:validate-token", token),
+  getToken: () => ipcRenderer.invoke("startgg:get-token"),
+  deleteToken: () => ipcRenderer.invoke("startgg:delete-token"),
   getStreamedSets: (slug: string, token: string) =>
     ipcRenderer.invoke("startgg:get-streamed-sets", { slug, token }),
 });

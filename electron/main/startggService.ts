@@ -3,8 +3,6 @@ import { GraphQLClient, gql } from "graphql-request";
 const API_URL = "https://api.start.gg/gql/alpha";
 
 export async function validateStartGGToken(token: string): Promise<boolean> {
-  console.log({ token });
-
   const client = new GraphQLClient(API_URL, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -54,6 +52,6 @@ export async function getStreamedSets(eventSlug: string, token: string) {
     }
   `;
 
-  const data = await client.request(query, { slug: eventSlug });
+  const data = (await client.request(query, { slug: eventSlug })) as any;
   return data.event.streamQueue;
 }

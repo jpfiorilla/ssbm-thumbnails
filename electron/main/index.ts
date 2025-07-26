@@ -5,6 +5,7 @@ import path from "node:path";
 import os from "node:os";
 import { update } from "./update";
 import { validateStartGGToken, getStreamedSets } from "./startggService";
+import { deleteToken, getToken, saveToken } from "./storage";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -127,7 +128,17 @@ ipcMain.handle("open-win", (_, arg) => {
 });
 
 ipcMain.handle("startgg:validate-token", async (_, token: string) => {
-  return await validateStartGGToken(token);
+  const isValid = await validateStartGGToken(token);
+  if (isValid) await saveToken(token);
+  return isValid;
+});
+
+ipcMain.handle("startgg:get-token", async () => {
+  return await getToken();
+});
+
+ipcMain.handle("startgg:delete-token", async () => {
+  return await deleteToken();
 });
 
 ipcMain.handle("startgg:get-streamed-sets", async (_, { slug, token }) => {

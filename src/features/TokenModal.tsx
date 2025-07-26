@@ -1,12 +1,20 @@
-import React, { FormEventHandler, useState } from "react";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import { useToken } from "../context/TokenContext";
 import Modal from "@/components/update/Modal";
 import { validateToken } from "@/api/startgg";
 
-const TokenModal: React.FC<{ open: boolean; onClose: () => void }> = ({
-  open,
-  onClose,
-}) => {
+const TokenModal: React.FC = () => {
+  const { token } = useToken();
+  const [showModal, setShowModal] = useState(!!token);
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (!token) setShowModal(true);
+    else if (token) handleCloseModal();
+  }, [token]);
+
   const { setToken } = useToken();
   const [inputToken, setInputToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +31,7 @@ const TokenModal: React.FC<{ open: boolean; onClose: () => void }> = ({
 
       if (isValid) {
         setToken(trimmedInput);
-        onClose();
+        handleCloseModal();
       }
     }
 
@@ -32,11 +40,11 @@ const TokenModal: React.FC<{ open: boolean; onClose: () => void }> = ({
 
   return (
     <Modal
-      open={open}
+      open={showModal}
       title="Enter Start.gg API Token"
       cancelText="Cancel"
       okText="Save"
-      onCancel={onClose}
+      onCancel={handleCloseModal}
       //   onOk={handleOk}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

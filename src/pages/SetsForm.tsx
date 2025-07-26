@@ -4,7 +4,7 @@ import { useState } from "react";
 interface StreamedSet {
   id: string;
   round: string;
-  players: string[];
+  players: { id: number; name: string }[];
 }
 
 export default function SetsForm() {
@@ -24,7 +24,6 @@ export default function SetsForm() {
 
     setLoading(true);
     try {
-      console.log({ slug });
       const rawSets = await window.startgg.fetchStreamedSets(slug);
       console.log({ rawSets });
       setSets(rawSets);
@@ -80,10 +79,10 @@ export default function SetsForm() {
               {set.players.map((p, idx) => (
                 <input
                   key={idx}
-                  value={p}
+                  value={p.name}
                   onChange={(e) => {
                     const players = [...set.players];
-                    players[idx] = e.target.value;
+                    players[idx].name = e.target.value;
                     handleUpdate(i, "players", players);
                   }}
                   placeholder={`Player ${idx + 1}`}

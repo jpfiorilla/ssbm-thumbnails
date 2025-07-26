@@ -41,12 +41,17 @@ export async function getStreamedSets(eventSlug: string, token: string) {
           nodes {
             id
             fullRoundText
-            stream {
-              streamName
-            }
             slots {
               entrant {
+                id
                 name
+              }
+            }
+            games {
+              selections {
+                character {
+                  name
+                }
               }
             }
           }
@@ -60,6 +65,6 @@ export async function getStreamedSets(eventSlug: string, token: string) {
     id: node.id,
     round: node.fullRoundText,
     stream: node.stream?.streamName || "",
-    players: node.slots.map((slot: any) => slot.entrant?.name || ""),
+    players: node.slots.map((slot: any) => slot.entrant),
   }));
 }

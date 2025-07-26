@@ -24,23 +24,26 @@ export async function validateStartGGToken(token: string): Promise<boolean> {
     return false;
   }
 }
-
 export async function getStreamedSets(eventSlug: string, token: string) {
   const client = new GraphQLClient(API_URL, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
+  console.log("Fetching sets for slug:", JSON.stringify(eventSlug));
+  console.log("Token present:", !!token);
+
   const query = gql`
-    query EventStreamQueue($slug: String!) {
+    query EventSets($slug: String!) {
       event(slug: $slug) {
+        id
         name
-        streamQueue {
-          stream {
-            streamName
-          }
-          sets {
+        sets(page: 1, perPage: 20, sortType: STANDARD) {
+          nodes {
             id
             fullRoundText
+            stream {
+              streamName
+            }
             slots {
               entrant {
                 name
@@ -53,5 +56,10 @@ export async function getStreamedSets(eventSlug: string, token: string) {
   `;
 
   const data = (await client.request(query, { slug: eventSlug })) as any;
-  return data.event.streamQueue;
+  return data.event.sets.nodes.map((node: any) => ({
+    id: node.id,
+    round: node.fullRoundText,
+    stream: node.stream?.streamName || "",
+    players: node.slots.map((slot: any) => slot.entrant?.name || ""),
+  }));
 }

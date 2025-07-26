@@ -141,6 +141,6 @@ ipcMain.handle("startgg:delete-token", async () => {
   return await deleteToken();
 });
 
-ipcMain.handle("startgg:get-streamed-sets", async (_, { slug, token }) => {
-  return await getStreamedSets(slug, token);
+ipcMain.handle("startgg:get-streamed-sets", async (_, slug: string) => {
+  return await getStreamedSets(slug, (await getToken()) as string);
 });

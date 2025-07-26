@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface TokenContextType {
   token: string | null;
-  setToken: (token: string) => void;
+  setToken: (token: string) => Promise<boolean>;
 }
 
 const TokenContext = createContext<TokenContextType | undefined>(undefined);
@@ -12,14 +12,20 @@ export const TokenProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [token, setTokenState] = useState<string | null>(null);
 
+  // Load token from secure storage on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem("startggToken");
-    if (savedToken) setTokenState(savedToken);
+    (async () => {
+      const savedToken = await window.startgg.getToken();
+      if (savedToken) setTokenState(savedToken);
+    })();
   }, []);
 
-  const setToken = (newToken: string) => {
-    localStorage.setItem("startggToken", newToken);
-    setTokenState(newToken);
+  const setToken = async (newToken: string): Promise<boolean> => {
+    const success = await window.startgg.validateAndSave(newToken);
+    if (success) {
+      setTokenState(newToken); // UI state
+    }
+    return success;
   };
 
   return (

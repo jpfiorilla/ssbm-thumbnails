@@ -1,7 +1,7 @@
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { useToken } from "../context/TokenContext";
 import Modal from "@/components/update/Modal";
-import { validateToken } from "@/api/startgg";
+import { validateAndSave } from "@/api/startgg";
 
 const TokenModal: React.FC = () => {
   const { token } = useToken();
@@ -26,7 +26,7 @@ const TokenModal: React.FC = () => {
     setIsSubmitting(true);
 
     if (trimmedInput) {
-      const isValid = await validateToken(trimmedInput);
+      const isValid = await validateAndSave(trimmedInput);
       console.log({ isValid });
 
       if (isValid) {

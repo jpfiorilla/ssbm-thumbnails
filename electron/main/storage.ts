@@ -8,7 +8,9 @@ export async function saveToken(token: string) {
 }
 
 export async function getToken(): Promise<string | null> {
-  return await keytar.getPassword(SERVICE_NAME, ACCOUNT_NAME);
+  const token = await keytar.getPassword(SERVICE_NAME, ACCOUNT_NAME);
+  console.log({ token });
+  return token;
 }
 
 export async function deleteToken() {
